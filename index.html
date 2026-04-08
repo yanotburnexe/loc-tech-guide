@@ -1,0 +1,1208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tech Skills for Localization & i18n — A Self-Study Course</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f0f0f;
+    --surface: #161616;
+    --surface2: #1e1e1e;
+    --border: #2a2a2a;
+    --text: #e8e4dc;
+    --muted: #7a7570;
+    --accent: #c8a97e;
+    --accent2: #7eb8c8;
+    --accent3: #c87ea9;
+    --green: #7ec8a0;
+    --tag-bg: #1e1e1e;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* Header */
+  .hero {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 60px 40px 50px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(200,169,126,0.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-inner {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .course-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .course-label::after {
+    content: '';
+    flex: 1;
+    max-width: 60px;
+    height: 1px;
+    background: var(--accent);
+    opacity: 0.4;
+  }
+  h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    line-height: 1.15;
+    font-weight: 400;
+    margin-bottom: 20px;
+    color: var(--text);
+  }
+  h1 em {
+    color: var(--accent);
+    font-style: italic;
+  }
+  .hero-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    color: var(--muted);
+    font-size: 13.5px;
+  }
+  .hero-meta span {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .hero-desc {
+    margin-top: 22px;
+    color: #a09890;
+    max-width: 640px;
+    font-size: 14.5px;
+    line-height: 1.8;
+  }
+
+  /* Nav */
+  .toc-bar {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0 40px;
+    overflow-x: auto;
+    white-space: nowrap;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    scrollbar-width: none;
+  }
+  .toc-bar::-webkit-scrollbar { display: none; }
+  .toc-inner {
+    display: inline-flex;
+    gap: 0;
+    max-width: 900px;
+  }
+  .toc-bar a {
+    display: inline-block;
+    padding: 14px 16px;
+    font-size: 12px;
+    font-family: 'DM Mono', monospace;
+    color: var(--muted);
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+    white-space: nowrap;
+  }
+  .toc-bar a:hover {
+    color: var(--text);
+    border-bottom-color: var(--accent);
+  }
+
+  /* Main layout */
+  .main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 50px 40px 80px;
+  }
+
+  /* Section */
+  .section {
+    margin-bottom: 58px;
+    animation: fadeUp 0.4s ease both;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .section-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+    margin-bottom: 22px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-icon {
+    font-size: 22px;
+    margin-top: 2px;
+    flex-shrink: 0;
+  }
+  .section-title-block {}
+  .section-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+  h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.45rem;
+    font-weight: 400;
+    color: var(--text);
+    line-height: 1.25;
+  }
+  .new-badge {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    background: rgba(126,200,160,0.15);
+    color: var(--green);
+    border: 1px solid rgba(126,200,160,0.3);
+    padding: 2px 7px;
+    border-radius: 3px;
+    vertical-align: middle;
+    margin-left: 8px;
+    position: relative;
+    top: -2px;
+  }
+
+  .section-desc {
+    color: #9a9490;
+    font-size: 14px;
+    margin-bottom: 18px;
+    line-height: 1.75;
+    max-width: 700px;
+  }
+  .section-desc strong {
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  /* Skills covered */
+  .skills-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin-bottom: 20px;
+  }
+  .skill-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    padding: 3px 10px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    border-radius: 3px;
+  }
+
+  /* Resources */
+  .resources {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .resource {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 15px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    text-decoration: none;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .resource:hover {
+    border-color: var(--accent);
+    background: #202020;
+  }
+  .resource-icon {
+    font-size: 15px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .resource-body {}
+  .resource-title {
+    font-size: 13.5px;
+    color: var(--text);
+    font-weight: 500;
+    line-height: 1.4;
+  }
+  .resource-source {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+  .resource-type {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    padding: 1px 6px;
+    border-radius: 2px;
+    margin-left: 8px;
+    vertical-align: middle;
+  }
+  .type-article { background: rgba(200,169,126,0.12); color: var(--accent); border: 1px solid rgba(200,169,126,0.2); }
+  .type-course  { background: rgba(126,184,200,0.12); color: var(--accent2); border: 1px solid rgba(126,184,200,0.2); }
+  .type-video   { background: rgba(200,126,169,0.12); color: var(--accent3); border: 1px solid rgba(200,126,169,0.2); }
+  .type-ref     { background: rgba(126,200,160,0.12); color: var(--green);   border: 1px solid rgba(126,200,160,0.2); }
+  .type-author { background: rgba(200,126,169,0.14); color: #e8a0c8; border: 1px solid rgba(200,126,169,0.35); }
+  .resource.author-resource {
+    border-color: rgba(200,126,169,0.25);
+    background: #1c1a1e;
+  }
+  .resource.author-resource:hover {
+    border-color: #c87ea9;
+    background: #201c22;
+  }
+
+  /* Footer */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 30px 40px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 13px;
+    font-family: 'DM Mono', monospace;
+  }
+
+  @media (max-width: 600px) {
+    .hero, .main { padding-left: 20px; padding-right: 20px; }
+    .toc-bar { padding: 0 20px; }
+    footer { padding: 24px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="course-label">Self-Study Course</div>
+    <h1>Tech Skills for<br><em>Localization & i18n</em></h1>
+    <div class="hero-meta">
+      <span>📚 19 modules</span>
+      <span>🔗 55+ resources</span>
+      <span>📹 4 videos</span>
+      <span>⏱ Self-paced</span>
+    </div>
+    <p class="hero-desc">A curated reading list covering the full technical stack of modern localization work — from i18n foundations and engineering roles through to continuous pipelines, QA, MT evaluation, and AI-assisted workflows.</p>
+  </div>
+</header>
+
+<nav class="toc-bar">
+  <div class="toc-inner">
+    <a href="#foundations">01 Foundations</a>
+    <a href="#careers">02 Careers</a>
+    <a href="#formats">03 File Formats</a>
+    <a href="#ui">04 UI & Language Logic</a>
+    <a href="#icu">05 ICU & CLDR</a>
+    <a href="#continuous">06 Continuous Loc</a>
+    <a href="#git">07 Git & Integrations</a>
+    <a href="#tms-api">08 TMS APIs & CLI</a>
+    <a href="#regex">09 Regex for Loc</a>
+    <a href="#qa">10 QA & Quality</a>
+    <a href="#metrics">11 Metrics</a>
+    <a href="#mt">12 MT & AI</a>
+    <a href="#engineering">13 Loc Engineering</a>
+    <a href="#llm">14 LLM Prompting</a>
+    <a href="#scripting">15 Scripting & Python</a>
+    <a href="#bcp47">16 BCP 47 & Locales</a>
+    <a href="#figma">17 Figma ↔ TMS</a>
+    <a href="#jira">18 Jira & Event Triggers</a>
+    <a href="#orchestration">19 MT Orchestration</a>
+  </div>
+</nav>
+
+<main class="main">
+
+  <!-- 01 -->
+  <section class="section" id="foundations">
+    <div class="section-header">
+      <div class="section-icon">🌐</div>
+      <div class="section-title-block">
+        <div class="section-num">Module 01</div>
+        <h2>Foundations of i18n & l10n</h2>
+      </div>
+    </div>
+    <p class="section-desc">Start here. These resources establish the core concepts — what internationalization and localization actually mean in software, why they're different, and what good practice looks like at the product level.</p>
+    <div class="skills-row">
+      <span class="skill-tag">i18n vs l10n vs t9n</span>
+      <span class="skill-tag">software localization lifecycle</span>
+      <span class="skill-tag">locale-aware design</span>
+      <span class="skill-tag">string externalization</span>
+    </div>
+    <div class="resources">
+      <a class="resource" href="https://academy.lokalise.com/course/internationalization" target="_blank">
+        <span class="resource-icon">▶</span>
+        <div class="resource-body">
+          <div class="resource-title">Internationalization <span class="resource-type type-course">course</span></div>
+          <div class="resource-source">Lokalise Academy</div>
+        </div>
+      </a>
+      <a class="resource" href="https://crowdin.com/blog/complete-i18n-guide" target="_blank">
+        <span class="resource-icon">📄</span>
+        <div class="resource-body">
+          <div class="resource-title">Complete i18n Guide <span class="resource-type type-article">article</span></div>
+          <div class="resource-source">Crowdin Blog</div>
+        </div>
+      </a>
+      <a class="resource" href="https://lokalise.com/blog/software-localization" target="_blank">
+        <span class="resource-icon">📄</span>
+        <div class="resource-body">
+          <div class="resource-title">Software Localization <span class="resource-type type-article">article</span></div>
+          <div class="resource-source">Lokalise Blog</div>
+        </div>
+      </a>
+      <a class="resource" href="https://onesky.ai/blog/i18n-need-to-know-internationalization" target="_blank">
+        <span class="resource-icon">📄</span>
+        <div class="resource-body">
+          <div class="resource-title">i18n: What You Need to Know <span class="resource-type type-article">article</span></div>
+          <div class="resource-source">OneSky</div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- 02 -->
+  <section class="section" id="careers">
+    <div class="section-header">
+      <div class="section-icon">👤</div>
+      <div class="section-title-block">
+        <div class="section-num">Module 02</div>
+        <h2>Localization Careers & Roles</h2>
+      </div>
+    </div>
+    <p class="section-desc">Understand the landscape of roles — particularly the localization engineer, what they actually do day to day, and how the role differs from PM, translator, and QA positions.</p>
+    <div class="skills-row">
+      <span class="skill-tag">role definitions</span>
+      <span class="skill-tag">loc engineer scope</span>
+      <span class="skill-tag">career pathways</span>
+      <span class="skill-tag">team structures</span>
+    </div>
+    <div class="resources">
+      <a class="resource" href="https://better-i18n.com/en/blog/localization-careers-guide/" target="_blank">
+        <span class="resource-icon">📄</span>
+        <div class="resource-body">
+          <div class="resource-title">Localization Careers Guide <span class="resource-type type-article">article</span></div>
+          <div class="resource-source">Better i18n</div>
+        </div>
+      </a>
+      <a class="resource" href="https://lingohub.com/blog/the-role-of-localization-engineer-in-the-globalization-process" target="_blank">
+        <span class="resource-icon">📄</span>
+        <div class="resource-body">
+          <div class="resource-title">The Role of the Localization Engineer <span class="resource-type type-article">article</span></div>
+          <div class="resource-source">LingoHub</div>
+        </div>
+      </a>
+      <a class="resource" href="https://poeditor.com/blog/localization-engineer/" target="_blank">
+        <span class="resource-icon">📄</span>
+        <div class="resource-body">
+          <div class="resource-title">Localization Engineer: What Do They Do? <span class="resource-type type-article">article</span></div>
+          <div class="resource-source">POEditor</div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- 03 NEW -->
+  <section class="section" id="formats">
+    <div class="section-header">
+      <div class="section-icon">📁</div>
+      <div class="section-title-block">
+        <div class="section-num">Module 03</div>
+        <h2>File Formats & Resource Files <span class="new-badge">new</span></h2>
+      </div>
+    </div>
+    <p class="section-desc">A loc engineer must be fluent in the file formats that carry strings through a pipeline. This covers the most common ones by platform — <strong>.po/.pot, .xliff/.xlf, .strings, .arb, .resx, JSON, YAML</strong> — and the XLIFF standard in depth, including the extract/merge cycle, skeleton files, and version differences (1.2 vs 2.0).</p>
+    <div class="skills-row">
+      <span class="skill-tag">.po / .pot</span>
+      <span class="skill-tag">XLIFF 1.2 / 2.0</span>
+      <span class="skill-tag">.strings (iOS)</span>
+      <span class="skill-tag">.arb (Flutter)</span>
+      <span class="skill-tag">.resx (.NET)</span>
+      <span class="skill-tag">JSON / YAML</span>
+      <span class="skill-tag">extract–merge cycle</span>
+    </div>
+    <div class="resources">
+      <a class="resource" href="https://phrase.com/blog/posts/localization-formats-in-ios-android-and-web/" target="_blank">
+        <span class="resource-icon">📄</span>
+        <div class="resource-body">
+          <div class="resource-title">Localization File Formats: iOS, Android & Web <span class="resource-type type-article">article</span></div>
+          <div class="resource-source">Phrase Blog</div>
+        </div>
+      </a>
+      <a class="resource" href="https://xliffai.com/docs/xliff-format" target="_blank">
+        <span class="resource-icon">📄</span>
+        <div class="resource-body">
+          <div class="resource-title">XLIFF Format Guide — Structure, Versions & Usage <span class="resource-type type-ref">reference</span></div>
+          <div class="resource-source">xliffai.com</div>
+        </div>
+      </a>
+      <a class="resource" href="https://docs.lokalise.com/en/articles/1400816-xliff-xlf-xliff" target="_blank">
+        <span class="resource-icon">📄</span>
+        <div class="resource-body">
+          <div class="resource-title">XLIFF (.xlf, .xliff) in Lokalise <span class="resource-type type-ref">reference</span></div>
+          <div class="resource-source">Lokalise Help Center</div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- 04 -->
+  <section class="section" id="ui">
+    <div class="section-header">
+      <div class="section-icon">🖥️</div>
+      <div class="section-title-block">
+        <div class="section-num">Module 04</div>
+        <h2>UI Localization & Language Logic</h2>
+      </div>
+    </div>
+    <p class="section-desc">Practical techniques for adapting UI strings across languages — including pluralization rules, gender, text expansion, character encoding, RTL support, and common traps in string construction.</p>
+    <div class="skills-row">
+      <span class="skill-tag">pluralization</span>
+      <span class="skill-tag">text expansion</span>
+      <span class="skill-tag">RTL layouts</span>
+      <span class="skill-tag">encoding</span>
+      <span class="skill-tag">UI string best practices</span>
+    </div>
+    <div class="resources">
+      <a class="resource" href="https://phrase.com/blog/posts/pluralization/" target="_blank">
+        <span class="resource-icon">📄</span>
+        <div class="resource-body">
+          <div class="resource-title">The Developer's Guide to Pluralization <span class="resource-type type-article">article</span></div>
+          <div class="resource-source">Phrase Blog</div>
+        </div>
+      </a>
+      <a class="resource" href="https://crowdin.com/blog/best-practices-for-ui-localization#what-is-ui-localization" target="_blank">
+        <span class="resource-icon">📄</span>
+        <div class="resource-body">
+          <div class="resource-title">UI Localization Best Practices <span class="resource-type type-article">article</span></div>
+          <div class="resource-source">Crowdin Blog</div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- 05 NEW -->
+  <section class="section" id="icu">
+    <div class="section-header">
+      <div class="section-icon">🔣</div>
+      <div class="section-title-block">
+        <div class="section-num">Module 05</div>
+        <h2>ICU MessageFormat & CLDR <span class="new-badge">new</span></h2>
+      </div>
+    </div>
+    <p class="section-desc">ICU MessageFormat is the industry-standard syntax used by React Intl, Angular, Crowdin, Phrase, and others for plurals, gender selection, number/date formatting, and nested messages. CLDR is the underlying Unicode data repository that defines plural categories, date patterns, and locale conventions for 200+ locales. <strong>This module deserves serious time</strong> — it sits at the intersection of engineering and translation.</p>
+    <div class="skills-row">
+      <span class="skill-tag">ICU syntax</span>
+      <span class="skill-tag">plural categories (CLDR)</span>
+      <span class="skill-tag">select / gender</span>
+      <span class="skill-tag">number skeletons</span>
+      <span class="skill-tag">date formatting</span>
+      <span class="skill-tag">nested messages</span>
+      <span class="skill-tag">CLDR data</span>
+    </div>
+    <div class="resources">
+      <a class="resource" href="https://crowdin.com/blog/icu-guide" target="_blank">
+        <span class="resource-icon">📄</span>
+        <div class="resource-body">
+          <div class="resource-title">ICU Message Format: Complete Guide <span class="resource-type type-article">article</span></div>
+          <div class="resource-source">Crowdin Blog — most thorough, covers React/Vue/Angular/Symfony setup</div>
+        </div>
+      </a>
+      <a class="resource" href="https://phrase.com/blog/posts/guide-to-the-icu-message-format/" target="_blank">
+        <span class="resource-icon">📄</span>
+        <div class="resource-body">
+          <div class="resource-title">A Practical Guide to ICU MessageFormat <span class="resource-type type-article">article</span></div>
+          <div class="resource-source">Phrase Blog — good on CLDR/BCP 47 context</div>
+        </div>
+      </a>
+      <a class="resource" href="https://better-i18n.com/en/blog/icu-message-format/" target="_blank">
+        <span class="resource-icon">📄</span>
+        <div class="resource-body">
+          <div class="resource-title">ICU MessageFormat: Syntax, Patterns & Implementation <span class="resource-type type-article">article</span></div>
+          <div class="resource-source">Better i18n</div>
+        </div>
+      </a>
+      <a class="resource" href="https://cldr.unicode.org/" target="_blank">
+        <span class="resource-icon">📚</span>
+        <div class="resource-body">
+          <div class="resource-title">Unicode CLDR — Common Locale Data Repository <span class="resource-type type-ref">reference</span></div>
+          <div class="resource-source">unicode.org — the canonical source for plural rules, date/number patterns, collation</div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- 06 -->
+  <section class="section" id="continuous">
+    <div class="section-header">
+      <div class="section-icon">🔄</div>
+      <div class="section-title-block">
+        <div class="section-num">Module 06</div>
+        <h2>Continuous Localization & Workflows</h2>
+      </div>
+    </div>
+    <p class="section-desc">Localization integrated into the product development cycle — shift-left principles, pseudo-localization for early testing, and how to design pipelines that ship translations alongside code rather than after it.</p>
+    <div class="skills-row">
+      <span class="skill-tag">shift-left loc</span>
+      <span class="skill-tag">pseudo-localization</span>
+      <span class="skill-tag">string freeze</span>
+      <span class="skill-tag">branching strategies</span>
+    </div>
+    <div class="resources">
+      <a class="resource" href="https://academy.lokalise.com/course/continuous-localization" target="_blank">
+        <span class="resource-icon">▶</span>
+        <div class="resource-body">
+          <div class="resource-title">Continuous Localization <span class="resource-type type-course">course</span></div>
+          <div class="resource-source">Lokalise Academy</div>
+        </div>
+      </a>
+      <a class="resource" href="https://simplelocalize.io/blog/posts/pseudo-localization-guide/" target="_blank">
+        <span class="resource-icon">📄</span>
+        <div class="resource-body">
+          <div class="resource-title">The Pseudo-Localization Guide <span class="resource-type type-article">article</span></div>
+          <div class="resource-source">SimpleLocalize</div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- 07 -->
+  <section class="section" id="git">
+    <div class="section-header">
+      <div class="section-icon">⚙️</div>
+      <div class="section-title-block">
+        <div class="section-num">Module 07</div>
+        <h2>Git, Integrations & Developer Workflows</h2>
+      </div>
+    </div>
+    <p class="section-desc">Version control for localization files, connecting TMS platforms to GitHub/GitLab, and building CI/CD pipelines that automate the push-translate-pull cycle.</p>
+    <div class="skills-row">
+      <span class="skill-tag">Git basics</span>
+      <span class="skill-tag">GitHub integration</span>
+      <span class="skill-tag">GitLab pipelines</span>
+      <span class="skill-tag">branch-aware translation</span>
+    </div>
+    <div class="resources">
+      <a class="resource" href="https://www.youtube.com/watch?v=r8jQ9hVA2qs" target="_blank">
+        <span class="resource-icon">📹</span>
+        <div class="resource-body">
+          <div class="resource-title">Git Basics for Localization <span class="resource-type type-video">video</span></div>
+          <div class="resource-source">YouTube</div>
+        </div>
+      </a>
+      <a class="resource" href="https://support.crowdin.com/github-integration/" target="_blank">
+        <span class="resource-icon">📄</span>
+        <div class="resource-body">
+          <div class="resource-title">GitHub Integration <span class="resource-type type-ref">reference</span></div>
+          <div class="resource-source">Crowdin Docs</div>
+        </div>
+      </a>
+      <a class="resource" href="https://lokalise.com/blog/syncing-lokalise-translations-with-gitlab-pipelines/" target="_blank">
+        <span class="resource-icon">📄</span>
+        <div class="resource-body">
+          <div class="resource-title">Syncing Translations with GitLab Pipelines <span class="resource-type type-article">article</span></div>
+          <div class="resource-source">Lokalise Blog</div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- 08 NEW -->
+  <section class="section" id="tms-api">
+    <div class="section-header">
+      <div class="section-icon">🔌</div>
+      <div class="section-title-block">
+        <div class="section-num">Module 08</div>
+        <h2>TMS APIs & CLI Tooling <span class="new-badge">new</span></h2>
+      </div>
+    </div>
+    <p class="section-desc">Going beyond GUI integrations to <strong>operating TMS platforms programmatically</strong>: running Crowdin CLI commands, configuring <code>crowdin.yml</code>, calling the Lokalise REST API, automating upload/download cycles in CI, and using webhooks to trigger downstream actions. This is where the loc engineer diverges from the loc coordinator.</p>
+    <div class="skills-row">
+      <span class="skill-tag">Crowdin CLI</span>
+      <span class="skill-tag">crowdin.yml config</span>
+      <span class="skill-tag">Lokalise REST API</span>
+      <span class="skill-tag">webhooks</span>
+      <span class="skill-tag">CI/CD automation</span>
+      <span class="skill-tag">string status filtering</span>
+    </div>
+    <div class="resources">
+      <a class="resource" href="https://crowdin.com/blog/2024/10/11/ai-localization-guide-from-crowdin-2024" target="_blank">
+        <span class="resource-icon">📄</span>
+        <div class="resource-body">
+          <div class="resource-title">AI Localization Guide: Automated Pipeline with Crowdin CLI <span class="resource-type type-article">article</span></div>
+          <div class="resource-source">Crowdin Blog — includes crowdin push / download / CI setup</div>
+        </div>
+      </a>
+      <a class="resource" href="https://developer.crowdin.com/" target="_blank">
+        <span class="resource-icon">📚</span>
+        <div class="resource-body">
+          <div class="resource-title">Crowdin Developer Documentation <span class="resource-type type-ref">reference</span></div>
+          <div class="resource-source">developer.crowdin.com — API reference, CLI docs, webhooks</div>
+        </div>
+      </a>
+      <a class="resource" href="https://developers.lokalise.com/reference/lokalise-api" target="_blank">
+        <span class="resource-icon">📚</span>
+        <div class="resource-body">
+          <div class="resource-title">Lokalise API Reference <span class="resource-type type-ref">reference</span></div>
+          <div class="resource-source">developers.lokalise.com</div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- 09 NEW -->
+  <section class="section" id="regex">
+    <div class="section-header">
+      <div class="section-icon">🔡</div>
+      <div class="section-title-block">
+        <div class="section-num">Module 09</div>
+        <h2>Regex for Localization Work <span class="new-badge">new</span></h2>
+      </div>
+    </div>
+    <p class="section-desc">Regular expressions are a daily tool for loc engineers: locking non-translatable content (URLs, variables, HTML tags), writing custom QA checks, building filters for TMS platforms, and pre/post-processing resource files. Not optional.</p>
+    <div class="skills-row">
+      <span class="skill-tag">locking patterns</span>
+      <span class="skill-tag">non-translatable content</span>
+      <span class="skill-tag">QA filters</span>
+      <span class="skill-tag">tag integrity checks</span>
+      <span class="skill-tag">Trados regex</span>
+      <span class="skill-tag">regex101</span>
+    </div>
+    <div class="resources">
+      <a class="resource" href="https://laoret.com/blog/regular-expressions/" target="_blank">
+        <span class="resource-icon">📄</span>
+        <div class="resource-body">
+          <div class="resource-title">How to Use Regular Expressions in Localization <span class="resource-type type-article">article</span></div>
+          <div class="resource-source">Laoret — locking non-translatables, CAT tool usage</div>
+        </div>
+      </a>
+      <a class="resource" href="https://www.linkedin.com/pulse/using-regex-qa-joellocalization" target="_blank">
+        <span class="resource-icon">📄</span>
+        <div class="resource-body">
+          <div class="resource-title">Using Regex for QA in Trados <span class="resource-type type-article">article</span></div>
+          <div class="resource-source">LinkedIn — practical QA application</div>
+        </div>
+      </a>
+      <a class="resource" href="https://regex101.com/" target="_blank">
+        <span class="resource-icon">🛠</span>
+        <div class="resource-body">
+          <div class="resource-title">regex101 — Online Regex Tester & Debugger <span class="resource-type type-ref">tool</span></div>
+          <div class="resource-source">regex101.com — bookmark and use constantly</div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- 10 -->
+  <section class="section" id="qa">
+    <div class="section-header">
+      <div class="section-icon">🔍</div>
+      <div class="section-title-block">
+        <div class="section-num">Module 10</div>
+        <h2>QA & Localization Quality</h2>
+      </div>
+    </div>
+    <p class="section-desc">Systematic approaches to catching translation and engineering errors — from automated checks in TMS tools to visual/functional LQA. Covers both linguistic and technical quality dimensions.</p>
+    <div class="skills-row">
+      <span class="skill-tag">LQA</span>
+      <span class="skill-tag">automated QA checks</span>
+      <span class="skill-tag">tag validation</span>
+      <span class="skill-tag">in-context review</span>
+      <span class="skill-tag">error taxonomy</span>
+    </div>
+    <div class="resources">
+      <a class="resource" href="https://lokalise.com/blog/translation-errors/" target="_blank">
+        <span class="resource-icon">📄</span>
+        <div class="resource-body">
+          <div class="resource-title">Translation Errors: A Complete Guide <span class="resource-type type-article">article</span></div>
+          <div class="resource-source">Lokalise Blog</div>
+        </div>
+      </a>
+      <a class="resource" href="https://www.youtube.com/watch?v=eNLFRMn7hY8" target="_blank">
+        <span class="resource-icon">📹</span>
+        <div class="resource-body">
+          <div class="resource-title">Localization QA Deep Dive <span class="resource-type type-video">video</span></div>
+          <div class="resource-source">YouTube</div>
+        </div>
+      </a>
+      <a class="resource author-resource" href="https://medium.com/@kolesnikova.yana.s/localization-quality-assurance-lqa-37d4f1b3f8ac" target="_blank">
+        <span class="resource-icon">✍️</span>
+        <div class="resource-body">
+          <div class="resource-title">Localization Quality Assurance (LQA) — a practical guide <span class="resource-type type-author">by Yana</span></div>
+          <div class="resource-source">Medium — covers cosmetic testing, automated screenshotting, LQA frameworks (MQM, LISA), functional testing, QA infrastructure with dev teams</div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- 11 -->
+  <section class="section" id="metrics">
+    <div class="section-header">
+      <div class="section-icon">📊</div>
+      <div class="section-title-block">
+        <div class="section-num">Module 11</div>
+        <h2>Metrics & Business Impact</h2>
+      </div>
+    </div>
+    <p class="section-desc">How to measure what localization teams do and connect it to business outcomes — operational KPIs (velocity, coverage, TM leverage), quality metrics, and the harder question of where that data actually lives inside an organization.</p>
+    <div class="skills-row">
+      <span class="skill-tag">operational KPIs</span>
+      <span class="skill-tag">TM leverage</span>
+      <span class="skill-tag">ROI framing</span>
+      <span class="skill-tag">localization dashboards</span>
+    </div>
+    <div class="resources">
+      <a class="resource" href="https://www.yolocalizo.com/localization/2025/3/22/we-all-want-localization-metrics-but-where-do-we-get-them" target="_blank">
+        <span class="resource-icon">📄</span>
+        <div class="resource-body">
+          <div class="resource-title">We All Want Localization Metrics — But Where Do We Get Them? <span class="resource-type type-article">article</span></div>
+          <div class="resource-source">yolocalizo.com — on the data access problem, not just metric definitions</div>
+        </div>
+      </a>
+      <a class="resource" href="https://www.nimdzi.com/localization-roi/" target="_blank">
+        <span class="resource-icon">📄</span>
+        <div class="resource-body">
+          <div class="resource-title">Localization ROI <span class="resource-type type-article">article</span></div>
+          <div class="resource-source">Nimdzi</div>
+        </div>
+      </a>
+      <a class="resource" href="https://phrase.com/blog/posts/proving-localization-value-six-key-metrics-every-localization-manager-should-be-sharing/" target="_blank">
+        <span class="resource-icon">📄</span>
+        <div class="resource-body">
+          <div class="resource-title">Six Key Localization Metrics Every Manager Should Share <span class="resource-type type-article">article</span></div>
+          <div class="resource-source">Phrase Blog</div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- 12 -->
+  <section class="section" id="mt">
+    <div class="section-header">
+      <div class="section-icon">🤖</div>
+      <div class="section-title-block">
+        <div class="section-num">Module 12</div>
+        <h2>MT, AI & Automation</h2>
+      </div>
+    </div>
+    <p class="section-desc">Machine translation as managed infrastructure — engine selection, MTPE workflows, quality evaluation, and the current state of AI-driven translation automation. Treat MT as a product, not a button.</p>
+    <div class="skills-row">
+      <span class="skill-tag">MT engine selection</span>
+      <span class="skill-tag">MTPE</span>
+      <span class="skill-tag">post-editing guidelines</span>
+      <span class="skill-tag">domain-adaptive MT</span>
+      <span class="skill-tag">automation state-of-the-art</span>
+    </div>
+    <div class="resources">
+      <a class="resource" href="https://www.acclaro.com/blog/when-to-use-machine-translation-post-editing-for-enterprise-content/" target="_blank">
+        <span class="resource-icon">📄</span>
+        <div class="resource-body">
+          <div class="resource-title">When to Use MTPE for Enterprise Content <span class="resource-type type-article">article</span></div>
+          <div class="resource-source">Acclaro</div>
+        </div>
+      </a>
+      <a class="resource" href="https://phrase.com/blog/posts/machine-translation-post-editing-best-practices" target="_blank">
+        <span class="resource-icon">📄</span>
+        <div class="resource-body">
+          <div class="resource-title">MTPE Best Practices <span class="resource-type type-article">article</span></div>
+          <div class="resource-source">Phrase Blog</div>
+        </div>
+      </a>
+      <a class="resource" href="https://inten.to/the-state-of-translation-automation-2025" target="_blank">
+        <span class="resource-icon">📄</span>
+        <div class="resource-body">
+          <div class="resource-title">State of Translation Automation 2025 <span class="resource-type type-article">article</span></div>
+          <div class="resource-source">Inten.to — industry-wide survey</div>
+        </div>
+      </a>
+      <a class="resource author-resource" href="https://www.linkedin.com/pulse/can-machine-tell-sentence-feels-right-informal-guide-mt-kolesnikova-0ydyf/" target="_blank">
+        <span class="resource-icon">✍️</span>
+        <div class="resource-body">
+          <div class="resource-title">Can a Machine Tell If a Sentence Feels Right? An Informal Guide to Automatic MT Evaluation <span class="resource-type type-author">by Yana</span></div>
+          <div class="resource-source">LinkedIn — practical take on MT quality metrics and what they actually capture <span style="color:#555; font-size:10px;">· requires LinkedIn login</span></div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- 13 -->
+  <section class="section" id="engineering">
+    <div class="section-header">
+      <div class="section-icon">🛠️</div>
+      <div class="section-title-block">
+        <div class="section-num">Module 13</div>
+        <h2>Localization Engineering (Advanced)</h2>
+      </div>
+    </div>
+    <p class="section-desc">The deep end. Engineering activities across the full project lifecycle, i18n framework selection for modern web stacks, and a foundational academic overview of what localization engineering actually is and where it came from.</p>
+    <div class="skills-row">
+      <span class="skill-tag">translation kit preparation</span>
+      <span class="skill-tag">build engineering</span>
+      <span class="skill-tag">i18n frameworks</span>
+      <span class="skill-tag">React / Next.js i18n</span>
+    </div>
+    <div class="resources">
+      <a class="resource" href="https://www.raco.cat/index.php/Tradumatica/article/download/29123/28959" target="_blank">
+        <span class="resource-icon">📑</span>
+        <div class="resource-body">
+          <div class="resource-title">Localization Engineering: The Dream Job? — Bert Esselink <span class="resource-type type-paper">paper</span></div>
+          <div class="resource-source">Tradumàtica (2002) — still the canonical overview of the role</div>
+        </div>
+      </a>
+      <a class="resource" href="https://www.youtube.com/watch?v=Npc9-eyzr0g" target="_blank">
+        <span class="resource-icon">📹</span>
+        <div class="resource-body">
+          <div class="resource-title">Localization Engineering Tools Overview <span class="resource-type type-video">video</span></div>
+          <div class="resource-source">YouTube</div>
+        </div>
+      </a>
+      <a class="resource" href="https://www.youtube.com/watch?v=7iUhlUlM6bk" target="_blank">
+        <span class="resource-icon">📹</span>
+        <div class="resource-body">
+          <div class="resource-title">Localization Engineering Workflow <span class="resource-type type-video">video</span></div>
+          <div class="resource-source">YouTube</div>
+        </div>
+      </a>
+      <a class="resource" href="https://dev.to/erayg/best-i18n-libraries-for-nextjs-react-react-native-in-2026-honest-comparison-3m8f" target="_blank">
+        <span class="resource-icon">📄</span>
+        <div class="resource-body">
+          <div class="resource-title">Best i18n Libraries for Next.js / React / React Native (2026) <span class="resource-type type-article">article</span></div>
+          <div class="resource-source">dev.to — practical comparison with honest tradeoffs</div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- 14 NEW -->
+  <section class="section" id="llm">
+    <div class="section-header">
+      <div class="section-icon">💬</div>
+      <div class="section-title-block">
+        <div class="section-num">Module 14</div>
+        <h2>LLM Prompting for Localization Tasks <span class="new-badge">new</span></h2>
+      </div>
+    </div>
+    <p class="section-desc">Writing effective prompts for loc-specific use cases is an increasingly core skill. This covers context generation for UI strings, terminology extraction from bilingual corpora, glossary building, automated QA prompt patterns, and evaluating when LLM output requires human validation. Note: no single canonical resource covers this yet — the Crowdin docs below give a starting point; the rest you build through practice.</p>
+    <div class="skills-row">
+      <span class="skill-tag">context generation prompts</span>
+      <span class="skill-tag">terminology extraction</span>
+      <span class="skill-tag">glossary building</span>
+      <span class="skill-tag">QA prompt patterns</span>
+      <span class="skill-tag">AI context harvesting</span>
+      <span class="skill-tag">output validation</span>
+    </div>
+    <div class="resources">
+      <a class="resource" href="https://support.crowdin.com/ai-translations/" target="_blank">
+        <span class="resource-icon">📄</span>
+        <div class="resource-body">
+          <div class="resource-title">AI Translations & Context Harvesting <span class="resource-type type-ref">reference</span></div>
+          <div class="resource-source">Crowdin Docs — how context prompting works in a TMS context</div>
+        </div>
+      </a>
+      <a class="resource" href="https://crowdin.com/blog/software-localization" target="_blank">
+        <span class="resource-icon">📄</span>
+        <div class="resource-body">
+          <div class="resource-title">Software Localization: Advanced Guide (AI Pipeline section) <span class="resource-type type-article">article</span></div>
+          <div class="resource-source">Crowdin Blog — covers AI agent workflows, context insufficiency detection</div>
+        </div>
+      </a>
+      <a class="resource author-resource" href="https://www.linkedin.com/pulse/using-ai-automate-routine-localization-tasks-yana-kolesnikova-vrdof/" target="_blank">
+        <span class="resource-icon">✍️</span>
+        <div class="resource-body">
+          <div class="resource-title">Using AI to Automate Routine Localization Tasks <span class="resource-type type-author">by Yana</span></div>
+          <div class="resource-source">LinkedIn — where to start with automation, real use cases and ideas <span style="color:#555; font-size:10px;">· requires LinkedIn login</span></div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- 15 NEW -->
+  <section class="section" id="scripting">
+    <div class="section-header">
+      <div class="section-icon">🐍</div>
+      <div class="section-title-block">
+        <div class="section-num">Module 15</div>
+        <h2>Scripting & Python for Loc Automation <span class="new-badge">new</span></h2>
+      </div>
+    </div>
+    <p class="section-desc">Even basic Python scripting dramatically expands what a loc engineer can do: batch-processing files, manipulating TMX/TBX, calling TMS REST APIs, transforming formats. This starts with encoding fundamentals — understanding UTF-8, byte strings, and Unicode in Python is non-negotiable for file processing work.</p>
+    <div class="skills-row">
+      <span class="skill-tag">UTF-8 / Unicode in Python</span>
+      <span class="skill-tag">polib (.po file handling)</span>
+      <span class="skill-tag">ElementTree (XML/XLIFF)</span>
+      <span class="skill-tag">REST API calls (requests)</span>
+      <span class="skill-tag">batch file processing</span>
+      <span class="skill-tag">TMX / TBX parsing</span>
+    </div>
+    <div class="resources">
+      <a class="resource" href="https://realpython.com/python-encodings-guide/" target="_blank">
+        <span class="resource-icon">📄</span>
+        <div class="resource-body">
+          <div class="resource-title">Unicode & Character Encodings in Python <span class="resource-type type-article">article</span></div>
+          <div class="resource-source">Real Python — start here, essential foundation</div>
+        </div>
+      </a>
+      <a class="resource" href="https://pypi.org/project/polib/" target="_blank">
+        <span class="resource-icon">📚</span>
+        <div class="resource-body">
+          <div class="resource-title">polib — Python Library for .po/.pot Files <span class="resource-type type-ref">reference</span></div>
+          <div class="resource-source">PyPI — read/write/inspect PO files programmatically</div>
+        </div>
+      </a>
+      <a class="resource" href="https://docs.python.org/3/library/xml.etree.elementtree.html" target="_blank">
+        <span class="resource-icon">📚</span>
+        <div class="resource-body">
+          <div class="resource-title">xml.etree.ElementTree — XML Processing <span class="resource-type type-ref">reference</span></div>
+          <div class="resource-source">Python Docs — for parsing XLIFF, TMX, TBX files</div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- 16 NEW -->
+  <section class="section" id="bcp47">
+    <div class="section-header">
+      <div class="section-icon">🌍</div>
+      <div class="section-title-block">
+        <div class="section-num">Module 16</div>
+        <h2>BCP 47 & Locale Identifiers <span class="new-badge">new</span></h2>
+      </div>
+    </div>
+    <p class="section-desc">Language tags appear everywhere — API calls, file naming, TMS config, CLDR lookups, fallback chains. Understanding the subtag structure (<code>language-Script-REGION</code>), the difference between <code>zh-Hans-CN</code> and <code>zh-Hant-TW</code>, and how locale fallback hierarchies work prevents silent errors.</p>
+    <div class="skills-row">
+      <span class="skill-tag">BCP 47 subtag structure</span>
+      <span class="skill-tag">language / script / region</span>
+      <span class="skill-tag">fallback chains</span>
+      <span class="skill-tag">private-use tags</span>
+      <span class="skill-tag">ISO 639 / ISO 3166</span>
+      <span class="skill-tag">locale vs language</span>
+    </div>
+    <div class="resources">
+      <a class="resource" href="https://www.w3.org/International/articles/language-tags/" target="_blank">
+        <span class="resource-icon">📄</span>
+        <div class="resource-body">
+          <div class="resource-title">Language Tags in HTML and XML <span class="resource-type type-ref">reference</span></div>
+          <div class="resource-source">W3C Internationalization — canonical BCP 47 explainer</div>
+        </div>
+      </a>
+      <a class="resource" href="https://cldr.unicode.org/index/cldr-spec/picking-the-right-language-code" target="_blank">
+        <span class="resource-icon">📄</span>
+        <div class="resource-body">
+          <div class="resource-title">Picking the Right Language Identifier <span class="resource-type type-ref">reference</span></div>
+          <div class="resource-source">Unicode CLDR — when to add script/region subtags</div>
+        </div>
+      </a>
+      <a class="resource" href="https://phrase.com/blog/posts/guide-to-the-icu-message-format/" target="_blank">
+        <span class="resource-icon">📄</span>
+        <div class="resource-body">
+          <div class="resource-title">ICU Guide: Locales, BCP 47 Tags, and CLDR <span class="resource-type type-article">article</span></div>
+          <div class="resource-source">Phrase Blog — the locale section of the ICU guide covers this angle well</div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- 17 NEW -->
+  <section class="section" id="figma">
+    <div class="section-header">
+      <div class="section-icon">🎨</div>
+      <div class="section-title-block">
+        <div class="section-num">Module 17</div>
+        <h2>Figma ↔ TMS: Design-Stage Localization <span class="new-badge">new</span></h2>
+      </div>
+    </div>
+    <p class="section-desc">Localization that starts at the design stage — before a single line of code is written. Covers the plugin-based push/pull workflow between Figma and TMS platforms, screenshot-linked context, in-design language preview, key naming patterns, and why catching text expansion in Figma costs a fraction of what it costs in staging.</p>
+    <div class="skills-row">
+      <span class="skill-tag">design-stage loc</span>
+      <span class="skill-tag">Figma plugin workflow</span>
+      <span class="skill-tag">push/pull strings</span>
+      <span class="skill-tag">screenshot context</span>
+      <span class="skill-tag">text expansion preview</span>
+      <span class="skill-tag">key naming</span>
+      <span class="skill-tag">variable translation</span>
+    </div>
+    <div class="resources">
+      <a class="resource author-resource" href="https://www.linkedin.com/pulse/automating-variable-translation-yana-kolesnikova-1v5bf/" target="_blank">
+        <span class="resource-icon">✍️</span>
+        <div class="resource-body">
+          <div class="resource-title">Automating Variable Translation (TMS + Figma) <span class="resource-type type-author">by Yana</span></div>
+          <div class="resource-source">LinkedIn — a practitioner's walkthrough of the automation workflow <span style="color:#555; font-size:10px;">· requires LinkedIn login</span></div>
+        </div>
+      </a>
+      <a class="resource author-resource" href="https://www.linkedin.com/pulse/finding-plugin-figma-i-like-best-yana-kolesnikova-jfuhf/" target="_blank">
+        <span class="resource-icon">✍️</span>
+        <div class="resource-body">
+          <div class="resource-title">Finding the Figma Plugin I Like Best <span class="resource-type type-author">by Yana</span></div>
+          <div class="resource-source">LinkedIn — honest comparison from real use <span style="color:#555; font-size:10px;">· requires LinkedIn login</span></div>
+        </div>
+      </a>
+      <a class="resource" href="https://lokalise.com/blog/figma-lokalise/" target="_blank">
+        <span class="resource-icon">📄</span>
+        <div class="resource-body">
+          <div class="resource-title">Lokalise + Figma: The Power Duo for Design-Stage Localization <span class="resource-type type-article">article</span></div>
+          <div class="resource-source">Lokalise Blog — the concept, the workflow, and what changes when you shift left</div>
+        </div>
+      </a>
+      <a class="resource" href="https://lokalise.com/product/apps/design-tools/figma/" target="_blank">
+        <span class="resource-icon">📄</span>
+        <div class="resource-body">
+          <div class="resource-title">Lokalise Figma Plugin — Full Production Workflow <span class="resource-type type-ref">reference</span></div>
+          <div class="resource-source">Lokalise — screenshots, auto-link, RTL caveats, branching support</div>
+        </div>
+      </a>
+      <a class="resource" href="https://simplelocalize.io/docs/integrations/figma/" target="_blank">
+        <span class="resource-icon">📄</span>
+        <div class="resource-body">
+          <div class="resource-title">SimpleLocalize Figma Integration — Push/Pull Workflow <span class="resource-type type-ref">reference</span></div>
+          <div class="resource-source">SimpleLocalize Docs — good on connection states, deep linking, key sync mechanics</div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- 18 NEW -->
+  <section class="section" id="jira">
+    <div class="section-header">
+      <div class="section-icon">⚡</div>
+      <div class="section-title-block">
+        <div class="section-num">Module 18</div>
+        <h2>Event-Driven Workflows: Jira, Webhooks & TMS Triggers <span class="new-badge">new</span></h2>
+      </div>
+    </div>
+    <p class="section-desc">The pattern of <strong>ticket state change → trigger translation job → report back</strong> is one of the most powerful loc automation patterns in product companies. This covers webhook-based integrations, Jira ↔ TMS bidirectional sync, event-driven pipeline design, and the broader principle of building continuous localization from tool lifecycle events rather than manual handoffs.</p>
+    <div class="skills-row">
+      <span class="skill-tag">webhooks</span>
+      <span class="skill-tag">Jira ↔ TMS sync</span>
+      <span class="skill-tag">event-driven pipelines</span>
+      <span class="skill-tag">ticket lifecycle triggers</span>
+      <span class="skill-tag">CI/CD hooks</span>
+      <span class="skill-tag">Slack notifications</span>
+    </div>
+    <div class="resources">
+      <a class="resource" href="https://simplelocalize.io/blog/posts/ai-powered-localization-workflows/" target="_blank">
+        <span class="resource-icon">📄</span>
+        <div class="resource-body">
+          <div class="resource-title">AI-Powered Localization Workflows: Automation & Webhooks <span class="resource-type type-article">article</span></div>
+          <div class="resource-source">SimpleLocalize — event-driven pipeline patterns, continuous localization triggers</div>
+        </div>
+      </a>
+      <a class="resource" href="https://developer.crowdin.com/" target="_blank">
+        <span class="resource-icon">📚</span>
+        <div class="resource-body">
+          <div class="resource-title">Crowdin Webhooks & Events Documentation <span class="resource-type type-ref">reference</span></div>
+          <div class="resource-source">developer.crowdin.com — webhook payload structure, event types, Jira/Slack integration</div>
+        </div>
+      </a>
+      <a class="resource" href="https://support.crowdin.com/jira-integration/" target="_blank">
+        <span class="resource-icon">📄</span>
+        <div class="resource-body">
+          <div class="resource-title">Crowdin ↔ Jira Integration <span class="resource-type type-ref">reference</span></div>
+          <div class="resource-source">Crowdin Docs — connecting Jira tickets to translation tasks, status sync</div>
+        </div>
+      </a>
+      <a class="resource" href="https://lokalise.com/blog/syncing-lokalise-translations-with-gitlab-pipelines/" target="_blank">
+        <span class="resource-icon">📄</span>
+        <div class="resource-body">
+          <div class="resource-title">Syncing Translations with CI/CD Pipelines <span class="resource-type type-article">article</span></div>
+          <div class="resource-source">Lokalise Blog — the same trigger logic applied to GitLab; pattern transfers to any event source</div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- 19 NEW -->
+  <section class="section" id="orchestration">
+    <div class="section-header">
+      <div class="section-icon">🎛️</div>
+      <div class="section-title-block">
+        <div class="section-num">Module 19</div>
+        <h2>MT Orchestration: Multi-Engine Routing & Automation Layers <span class="new-badge">new</span></h2>
+      </div>
+    </div>
+    <p class="section-desc">Beyond picking a single MT engine — the orchestration layer sits above individual engines and routes content by language pair, domain, content type, or quality threshold. Tools like <strong>Inten.to</strong> act as a hub connecting 20+ engines, enabling A/B testing, adaptive routing, and requirements-based customization. This is where MT management becomes infrastructure design.</p>
+    <div class="skills-row">
+      <span class="skill-tag">multi-engine routing</span>
+      <span class="skill-tag">domain-based routing</span>
+      <span class="skill-tag">Inten.to hub</span>
+      <span class="skill-tag">engine A/B testing</span>
+      <span class="skill-tag">requirements-based translation</span>
+      <span class="skill-tag">LLM vs MT routing</span>
+      <span class="skill-tag">quality thresholds</span>
+    </div>
+    <div class="resources">
+      <a class="resource" href="https://inten.to/blog/its-not-about-the-mt-engine-anymore-translation-automation-in-2025/" target="_blank">
+        <span class="resource-icon">📄</span>
+        <div class="resource-body">
+          <div class="resource-title">It's Not About the MT Engine Anymore: Translation Automation in 2025 <span class="resource-type type-article">article</span></div>
+          <div class="resource-source">Inten.to Blog — the shift to multi-agent orchestration, LLMs vs traditional MT, requirements-based routing</div>
+        </div>
+      </a>
+      <a class="resource" href="https://inten.to/the-state-of-translation-automation-2025" target="_blank">
+        <span class="resource-icon">📄</span>
+        <div class="resource-body">
+          <div class="resource-title">State of Translation Automation 2025 — Full Report <span class="resource-type type-article">article</span></div>
+          <div class="resource-source">Inten.to — 80+ engines evaluated, quality benchmarks, orchestration landscape</div>
+        </div>
+      </a>
+      <a class="resource" href="https://inten.to/" target="_blank">
+        <span class="resource-icon">📚</span>
+        <div class="resource-body">
+          <div class="resource-title">Inten.to — MT Hub & Orchestration Platform <span class="resource-type type-ref">reference</span></div>
+          <div class="resource-source">inten.to — the canonical MT orchestration platform; explore their routing logic and engine coverage</div>
+        </div>
+      </a>
+      <a class="resource" href="https://phrase.com/blog/posts/machine-translation-post-editing-best-practices" target="_blank">
+        <span class="resource-icon">📄</span>
+        <div class="resource-body">
+          <div class="resource-title">MTPE Best Practices — When Orchestration Meets Human Review <span class="resource-type type-article">article</span></div>
+          <div class="resource-source">Phrase Blog — the human layer after routing decisions are made</div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div>Tech Skills for Localization & i18n — Self-Study Course</div>
+  <div style="margin-top:6px; color: #555;">19 modules · verified April 2026</div>
+  <div style="margin-top:10px; color: #444; font-size: 12px;">assembled by Yana Kolesnikova</div>
+</footer>
+
+</body>
+</html>
